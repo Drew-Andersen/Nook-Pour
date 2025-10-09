@@ -18,6 +18,14 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.app-name {
+  font-family: 'Fascinate', cursive;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-size: 3rem;
+  color: #ff9807ff;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
