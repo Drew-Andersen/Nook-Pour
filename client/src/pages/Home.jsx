@@ -6,6 +6,12 @@ export default function Home() {
     <Card className="text-center shadow-sm border-0">
       <Card.Body>
         <Card.Title className="fs-3 fw-semibold mb-3">Welcome to Nook & Pour</Card.Title>
+        {/* 
+          Possible other names:
+          Shake & Serve
+          The Mixologist
+          
+        */}
         <Card.Text>
           Tell us what ingredients you have, and we’ll find cocktails and shots you can make.
         </Card.Text>
