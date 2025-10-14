@@ -1,23 +1,43 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './pages/Home'
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
+import DrinkModal from "./components/DrinkModal";
+import { SAMPLE_DRINKS } from "./data/drinks";
 
-function App() {
+export default function App() {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDrink, setSelectedDrink] = useState(null);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+  const handleShowModal = (drink) => {
+    setSelectedDrink(drink);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedDrink(null);
+    setShowModal(false);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <Header />
+      <div className="container mt-4">
+        <Outlet
+          context={{
+            drinks: SAMPLE_DRINKS,
+            handleShowModal,
+            selectedIngredients,
+            setSelectedIngredients,
+          }}
+        />
       </div>
-      <Home></Home>
-    </>
-  )
-}
 
-export default App
+      <DrinkModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        drink={selectedDrink}
+      />
+    </>
+  );
+}
