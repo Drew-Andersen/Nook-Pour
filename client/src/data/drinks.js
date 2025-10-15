@@ -71,7 +71,7 @@ export const SAMPLE_DRINKS = [
     {
         id: "espresso_martini",
         name: "Espresso Martini",
-        icon: "☕",
+        icon: "🍸",
         ingredients: ["Vodka", "Coffee Liqueur", "Espresso", "Simple Syrup"],
         instructions: [
         "Shake all ingredients with ice until frothy.",
