@@ -17,7 +17,7 @@ export default function AllDrinks() {
   return (
     <div>
       <h2 className="mb-3">All Drinks</h2>
-      <p className="text-muted">Browse or search the full cocktail collection 🍸</p>
+      <p className="text-muted">Browse or search the full cocktail collection</p>
 
       <Form className="mb-4 d-flex justify-content-center">
         <Form.Control
@@ -54,7 +54,7 @@ export default function AllDrinks() {
             </div>
           ))
         ) : (
-          <p className="text-muted mt-4">No drinks found for "{searchTerm}"</p>
+          <p className="text-muted mt-4">No drinks found for &quot;{searchTerm}&quot;</p>
         )}
       </div>
     </div>

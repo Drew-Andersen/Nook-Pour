@@ -21,7 +21,7 @@ export default function Ingredients() {
             <Card
               onClick={() => toggleIngredient(ing)}
               className={`text-center p-3 ${
-                selectedIngredients.includes(ing) ? "border-warning shadow" : ""
+                selectedIngredients.includes(ing) ? "border-warning shadow bg-warning bg-opacity-25" : ""
               }`}
               style={{ cursor: "pointer" }}
             >

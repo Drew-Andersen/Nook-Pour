@@ -13,6 +13,8 @@ export const SAMPLE_INGREDIENTS = [
     "Club Soda",
     "Coffee Liqueur",
     "Espresso",
+    "Heavy Cream",
+    "Pumpkin Puree",
 ];
 
 
@@ -74,9 +76,23 @@ export const SAMPLE_DRINKS = [
         icon: "🍸",
         ingredients: ["Vodka", "Coffee Liqueur", "Espresso", "Simple Syrup"],
         instructions: [
-        "Shake all ingredients with ice until frothy.",
-        "Strain into a chilled martini glass.",
-        "Garnish with coffee beans.",
+            "Shake all ingredients with ice until frothy.",
+            "Strain into a chilled martini glass.",
+            "Garnish with coffee beans.",
+        ],
+    },
+    {
+        id: "pumpkin_spice_white_russian",
+        name: "Pumpkin Spice White Russian",
+        icon: "🥃",
+        ingredients: ["Vodka", "Coffee Liqueur", "Pumpkin Puree", "Heavy Cream"],
+        instructions: [
+            "Optional: Rim a rocks glass with crushed graham crackers and pumpkin spice.",
+            "Fill the glass with ice.",
+            "Add vodka and coffee liqueur.",
+            "Pour in pumpkin mixture (pumpkin puree and heavy cream).",
+            "Stir gently to combine.",
+            "Optional: Top with freshly ground cinnamon.",
         ],
     },
 ];
