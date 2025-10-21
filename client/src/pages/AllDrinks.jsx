@@ -35,8 +35,8 @@ export default function AllDrinks() {
             <div className="col-md-6 col-lg-4" key={drink.id}>
               <Card className="shadow-sm h-100 border-0">
                 <Card.Body>
+                  <Card.Img src={drink.image} alt={drink.name} style={{ width: "140px" }} />
                   <Card.Title className="fs-5 d-flex align-items-center justify-content-center gap-2">
-                    <span style={{ fontSize: "1.8rem" }}>{drink.icon}</span>
                     {drink.name}
                   </Card.Title>
                   <Card.Text className="text-muted small">
