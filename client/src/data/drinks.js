@@ -4,6 +4,7 @@ import MojitoImg from "../assets/Mojito-img.png";
 import WhiskeySourImg from "../assets/Whiskey-Sour-img.png";
 import OldFashionImg from "../assets/Old-Fashion-img.png";
 import MartiniImg from "../assets/Martini-img.png";
+import PumpkinSpiceWRImg from "../assets/Pumpkin-Spice-WR.png";
 
 export const SAMPLE_INGREDIENTS = [
     "Vodka",
@@ -98,6 +99,7 @@ export const SAMPLE_DRINKS = [
         id: "pumpkin_spice_white_russian",
         name: "Pumpkin Spice White Russian",
         icon: "🥃",
+        image: PumpkinSpiceWRImg,
         ingredients: ["Vodka", "Coffee Liqueur", "Pumpkin Puree", "Heavy Cream"],
         instructions: [
             "Optional: Rim a rocks glass with crushed graham crackers and pumpkin spice.",
