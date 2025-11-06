@@ -25,6 +25,17 @@ export const SAMPLE_INGREDIENTS = [
     "Pumpkin Puree",
 ];
 
+// make json
+/* sample = [
+{
+    contentName: '',
+    contentTypeName: liquor/mixer,
+    content: vodka,
+    drinkName: drink name,
+    quantity: __oz
+}
+]*/
+
 
 export const SAMPLE_DRINKS = [
     {

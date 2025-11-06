@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
 
 export default function Drinks() {
@@ -19,9 +19,17 @@ export default function Drinks() {
       <h2 className="mb-3">Available Drinks</h2>
 
       {availableDrinks.length === 0 ? (
-        <p className="text-muted">
-          No drinks match your selected ingredients. Try adding more!
-        </p>
+        <div>
+          <p className="text-muted">
+            No drinks match your selected ingredients. Try adding more!
+          </p>
+          <Button
+            variant="warning"
+            className="text-white"
+          >
+            <Link style={{textDecoration: "none", color: "white"}} to="/alldrinks">View All Drinks</Link>
+          </Button>
+          </div>
       ) : (
         <div className="row g-3">
           {availableDrinks.map((drink) => (
