@@ -1,6 +1,6 @@
 -- Create database
-CREATE DATABASE IF NOT EXISTS nook_pour;
-USE nook_pour;
+CREATE DATABASE IF NOT EXISTS nookpour;
+USE nookpour;
 
 -- Drinks table
 CREATE TABLE IF NOT EXISTS drinks (
