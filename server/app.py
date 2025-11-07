@@ -6,10 +6,10 @@ from actions import *
 app = Flask(__name__)
 CORS(app)
 
-drinks = [
-    {"id": 1, "name": "Margarita", "ingredients": ["Tequila", "Triple Sec", "Lime Juice"]},
-    {"id": 2, "name": "Old Fashion", "ingredients": ["Whiskey", "Bitters", "Simple Syrup"]},
-]
+# drinks = [
+#     {"id": 1, "name": "Margarita", "ingredients": ["Tequila", "Triple Sec", "Lime Juice"]},
+#     {"id": 2, "name": "Old Fashion", "ingredients": ["Whiskey", "Bitters", "Simple Syrup"]},
+# ]
 
 # @app.route("/")
 # def home():
@@ -75,5 +75,8 @@ def getformula():
     return(getFormula(drinkName))
 
 
-if __name__ == __name__:
-    app.run(host='0.0.0.0',debug=True)
+# if __name__ == __name__:
+#     app.run(host='0.0.0.0',debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
