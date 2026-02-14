@@ -1,14 +1,8 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
 
 export default function Home() {
-
-  useEffect(() => {
-    fetch("/api/hello")
-      .then(res => res.json())
-      .then(data => console.log(data.message));
-  }, []);
 
   return (
     <Card className="text-center shadow-sm border-0">

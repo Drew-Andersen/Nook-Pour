@@ -14,6 +14,17 @@ export default function AllDrinks() {
     );
   });
 
+    fetch("/api/hello")
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.error(err));
+
+      // fetch("http://127.0.0.1:5000/hello")
+      //   .then(res => res.json())
+      //   .then(data => console.log(data))
+
+  
+
   return (
     <div>
       <h2 className="mb-3">All Drinks</h2>
