@@ -1,10 +1,23 @@
 import { useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
 
 export default function AllDrinks() {
-  const { drinks, handleShowModal } = useOutletContext();
+  const { handleShowModal } = useOutletContext();
+  const [drinks, setDrinks] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetch('/api/drinks')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch drinks.')
+        }
+        return res.json()
+      })
+      .then(data => setDrinks(data))
+      .then(err => console.error(err))
+  }, [])
 
   const filteredDrinks = drinks.filter((drink) => {
     const term = searchTerm.toLowerCase();
@@ -14,15 +27,16 @@ export default function AllDrinks() {
     );
   });
 
-    fetch("/api/hello")
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
+  // fetch("/api/drinks/1")
+  //   .then(res => res.json())
+  //   .then(data => console.log(data))
+  //   .catch(err => console.error(err));
 
-      // fetch("http://127.0.0.1:5000/hello")
-      //   .then(res => res.json())
-      //   .then(data => console.log(data))
-
+  //   // Route used for testing connection to FlasK
+  //   fetch("/api/hello")
+  //     .then(res => res.json())
+  //     .then(data => console.log(data))
+  //     .catch(err => console.error(err));
   
 
   return (
@@ -65,7 +79,7 @@ export default function AllDrinks() {
             </div>
           ))
         ) : (
-          <p className="text-muted mt-4">No drinks found for &quot;{searchTerm}&quot;</p>
+          <p className="text-muted mt-4">No drinks found for {searchTerm};</p>
         )}
       </div>
     </div>
