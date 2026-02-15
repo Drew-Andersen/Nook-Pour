@@ -11,12 +11,6 @@ export default function Home() {
           <span className="app-name">Nook & Pour</span>
         </Card.Title>
         <img src="../../public/images/logo.png" width={200}/>
-        {/* 
-          Possible other names:
-          Shake & Serve
-          The Mixologist
-
-        */}
         <Card.Text>
           Tell us what ingredients you have, and we’ll find cocktails and shots you can make.
         </Card.Text>

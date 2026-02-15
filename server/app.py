@@ -94,12 +94,32 @@ drinks = [
     },
 ]
 
+ingredients = [
+    "Vodka",
+    "Gin",
+    "Rum",
+    "Tequila",
+    "Whiskey",
+    "Triple Sec",
+    "Dry Vermouth",
+    "Lime Juice",
+    "Lemon Juice",
+    "Simple Syrup",
+    "Angostura Bitters",
+    "Club Soda",
+    "Coffee Liqueur",
+    "Espresso",
+    "Heavy Cream",
+    "Pumpkin Puree",
+];
+
+
 @app.route("/")
 def root():
     return "THIS IS MY FLASK SERVER"
 
 
-@app.route('/api/drinks', methods=['GET'])
+@app.route("/api/drinks", methods=['GET'])
 def get_drinks():
     return jsonify(drinks)
 
@@ -109,6 +129,10 @@ def get_drink(drink_id):
         if drink['id'] == drink_id:
             return jsonify(drink)
     return jsonify({'error:': "Drink not found"}), 404
+
+@app.route("/api/ingredients", methods=["GET"])
+def get_ingredients():
+    return jsonify(ingredients)
 
 
 # Route Built for testing
