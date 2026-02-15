@@ -6,17 +6,13 @@
 
 </div>
 
-<!-- PROJECT LOGO -->
-
 <div align="center">
-
-  <h3 align="center">Nook & Pour</h3>
 
   <p align="center">
         <br />
-    <!-- <a href="">
-      <img src="" alt="Logo" width="80" height="80">
-    </a><br /> -->
+    <a href="">
+      <img src="client/public/images/logo.png" alt="Logo" width="140" height="150">
+    </a><br />
     Brought to you by Drew Andersen<br />
     <a href="https://github.com/Drew-Andersen/Nook-Pour"><strong>Explore the docs »</strong></a>
     <br />
@@ -36,7 +32,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#tech-stack">Built With</a></li>
       </ul>
     </li>
     <li>
@@ -56,22 +52,38 @@
 
 ## About The Project
 
-This project was built using the MERN stack (MongoDB, Express, React, Node). <br />
-Deployed Application located at "".
+**Nook & Pour** is a full-stack cocktoil discovery app that allows users to:
 
-### Built using:
+- Select ingredients that have on hand
+- View drinks they can make
+- Explore new cocktail recipes
 
-<div align="center">
+The application currently pulls data from a Flask backend (`app.py`) and is structured to later integrate with a SQL database.
 
-[![Javascript](https://img.shields.io/badge/Language-JavaScript-ff0000?style=plastic&logo=JavaScript&logoWidth=10)](https://javascript.info/)
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB-80ff00?style=plastic&logo=MongoDB&logoWidth=10)](https://www.mongodb.com/home)
-[![Node.js](https://img.shields.io/badge/Framework-Node.js-ff0000?style=plastic&logo=Node.js&logoWidth=10)](https://nodejs.org/en/)
-[![React](https://img.shields.io/badge/Framework-React.js-ff8000?style=plastic&logo=React&logoWidth=10)](https://reactjs.org/docs/getting-started.html)
-[![Express](https://img.shields.io/badge/Framework-Express-80ff00?style=plastic&logo=Express&logoWidth=10)](https://expressjs.com/)
-[![npm](https://img.shields.io/badge/Tools-npm-ff0000?style=plastic&logo=npm&logoWidth=10)](https://www.npmjs.com/)
-[![VS Code](https://img.shields.io/badge/IDE-VSCode-ff0000?style=plastic&logo=VisualStudioCode&logoWidth=10)](https://code.visualstudio.com/docs)
+### Tech Stack:
 
-</div>
+### Frontend
+
+- React
+- React Router
+- React Bootstrap
+- JavaScript (ES6+)
+
+### Backend
+
+- Python
+- Flask
+- REST API architecture
+
+### Planned Backend Upgrade
+
+- SQL Database (PostgreSQL or SQL Lite)
+
+### Development Tools
+
+- npm
+- VS Code
+- Cit & GitHub
 
 ## Getting Started
 
@@ -79,53 +91,72 @@ Deployed Application located at "".
 
 1. Clone the rep
 
-```
+``` bash
 git clone git@github.com:Drew-Andersen/Nook-Pour.git
+cd Nook-Pour
 ```
 
-2. Install dependencies
+2. Backend Setup (Flask)
 
+``` bash
+cd server
+python3 -m venv venv
+source venc/bin/activate # For Mac or Linux
+pip install requirements/txt
+python app.py
 ```
+
+The Flask API should now be running at:
+
+    http://localhost:5000
+
+3. Frontend Setup (React)
+
+Open a new terminal:
+
+``` bash
+cd client
 npm install
+npm start
 ```
 
-3. Seed the database
+The React app should run at:
 
-```
-npm run seed
-```
-
-4. Launch the app in development environments
-
-```
-npm run develop
-```
+    http://localhost:3000
 
 ## Usage
 
-<!-- Screenshots -->
+1. Navigate to the Ingredients page
+2. Select available ingredients
+3. Click **View Drinks**
+4. See matching cocktails
 
 ## Roadmap
 
-#### MVP
+### ✅ MVP
 
-- [ ] Front End
+-   [x] Ingredient selection UI
+-   [x] Drinks view page
+-   [x] Flask API integration
+-   [ ] Error handling improvements
+-   [ ] Clean UI polish
 
-  - [] Routing
-  - [] User Auth
-  - [] Landing Page
-  - [] Error Page
-  - [] Login Form
-  - [] Sign Up Form
-  - [] Search
+### 🔐 Authentication (Planned)
 
-- [ ] Back End
-  - [] Seeds
-  - [] User Auth
+-   [ ] User registration
+-   [ ] Login system
+-   [ ] Protected routes
 
-#### Future Development
+### 🗄 Database Integration
 
-- [ ] 404 Page
+-   [ ] Replace static data in `app.py`
+-   [ ] SQL database setup
+
+### 🌟 Future Enhancements
+
+-   [ ] 404 Page
+-   [ ] Save favorite drinks
+-   [ ] Deploy application
 
 
 ## Contributing
@@ -136,30 +167,37 @@ If you have a suggestion that would make this better, please fork the repo and c
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
-3. Commit your Changes (git commit -m 'Add some AmazingFeature')
-4. Push to the Branch (git push origin feature/AmazingFeature)
+2. Create your Feature Branch 
+``` bash
+git checkout -b feature/AmazingFeature
+```
+3. Commit your Changes 
+``` bash
+git commit -m 'Add some AmazingFeature'
+```
+4. Push to the Branch 
+``` bash
+git push origin feature/AmazingFeature
+```
 5. Open a Pull Request
 
-<!-- LICENSE -->
 
 ## License
 
 This project is licensed under the MIT license.
 
-See LICENSE.txt for more information.
+See `LICENSE.txt` for more information.
 
-<!-- CONTACT -->
 
 ## Contact
 
-[Drew Andersen](https://github.com/Drew-Andersen) - [andrewtandersen@gmail.com] <br />
+**Drew Andersen** <br />
+[GitHub](https://github.com/Drew-Andersen) <br />
+[Email](andrewtandersen@gmail.com) <br />
  
 
-Project Links:
+## Project Links:
 
 [Github Repository](https://github.com/Drew-Andersen/Nook-Pour)
 
 [Deployment- link later]()
-
-## Acknowledgments
