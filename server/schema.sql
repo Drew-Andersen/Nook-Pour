@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS ingredients;
 CREATE TABLE ingredients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
-    category ENUM('alcohol', 'mixer', 'garnish') NOT NULL
+    category ENUM('alcohol', 'mixer', 'garnish') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -27,19 +27,19 @@ CREATE TABLE drinks (
 
 -- Join Table 
 CREATE TABLE drink_ingredients (
-    drink_name INT NOT NULL,
-    ingredient_name INT NOT NULL,
+    drink_name VARCHAR(150) NOT NULL,
+    ingredient_name VARCHAR(150) NOT NULL,
     quantity VARCHAR(100), 
 
     PRIMARY KEY (drink_name, ingredient_name),
 
     FOREIGN KEY (drink_name)
         REFERENCES drinks(name)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
 
     FOREIGN KEY (ingredient_name)
         REFERENCES ingredients(name)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
 );
