@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import DrinkModal from "./components/DrinkModal";
-import { SAMPLE_DRINKS } from "./data/drinks";
 import './app.css';
 
 export default function App() {
@@ -26,7 +25,6 @@ export default function App() {
       <div className="container mt-4">
         <Outlet
           context={{
-            drinks: SAMPLE_DRINKS,
             handleShowModal,
             selectedIngredients,
             setSelectedIngredients,
