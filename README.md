@@ -23,6 +23,7 @@ Nook & Pour is a full-stack cocktail app. Mark off the spirits, mixers and garni
 - **Ready to pour:** every drink you can make right now
 - **Almost there:** drinks you're one or two ingredients away from, and exactly what's missing
 - **Best next buy:** the bottle that would unlock the most new drinks
+
 It also includes:
  
 - **50+ recipes** (cocktails and shots), each with an illustration, measurements, glassware and step-by-step instructions
@@ -31,6 +32,7 @@ It also includes:
 - **Favorites**, plus a bar that's remembered between visits
 - **Shareable recipe pages** (e.g. `/drinks/old-fashioned`)
 - A responsive layout that works on phone, tablet and desktop
+
 Garnishes and rims are listed in each recipe but never stop a drink from matching. Nobody should miss out on a Margarita because they're out of salt.
  
 ## Tech stack
@@ -93,6 +95,7 @@ npm run dev
  
 - React app: http://localhost:5173
 - Flask API: http://localhost:5000
+
 On first start, the API creates its tables and loads all the recipes automatically.
  
 ## Project structure
