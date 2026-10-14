@@ -1,87 +1,77 @@
-import { useOutletContext } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Card, Button, Form } from "react-bootstrap";
+import { useMemo, useState } from "react";
+import { Form, ButtonGroup, Button } from "react-bootstrap";
+import useApi from "../hooks/useApi";
+import { api } from "../lib/api";
+import DrinkCard from "../components/DrinkCard";
+import { Loading, ErrorMessage, Empty } from "../components/Status";
+
+const KINDS = [
+  ["", "All"],
+  ["cocktail", "Cocktails"],
+  ["shot", "Shots"],
+];
 
 export default function AllDrinks() {
-  const { handleShowModal } = useOutletContext();
-  const [drinks, setDrinks] = useState([])
+  const { data: drinks, loading, error, retry } = useApi(() => api.drinks(), []);
   const [searchTerm, setSearchTerm] = useState("");
+  const [kind, setKind] = useState("");
 
-  useEffect(() => {
-    fetch('/api/drinks')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch drinks.')
-        }
-        return res.json()
-      })
-      .then(data => setDrinks(data))
-      .then(err => console.error(err))
-  }, [])
-
-  const filteredDrinks = drinks.filter((drink) => {
-    const term = searchTerm.toLowerCase();
-    return (
-      drink.name.toLowerCase().includes(term) ||
-      drink.ingredients.some((ing) => ing.toLowerCase().includes(term))
+  const filtered = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    return (drinks || []).filter(
+      (d) =>
+        (!kind || d.kind === kind) &&
+        (!term ||
+          d.name.toLowerCase().includes(term) ||
+          d.ingredients.some((i) => i.name.toLowerCase().includes(term)))
     );
-  });
+  }, [drinks, searchTerm, kind]);
 
-  // fetch("/api/drinks/1")
-  //   .then(res => res.json())
-  //   .then(data => console.log(data))
-  //   .catch(err => console.error(err));
-
-  //   // Route used for testing connection to FlasK
-  //   fetch("/api/hello")
-  //     .then(res => res.json())
-  //     .then(data => console.log(data))
-  //     .catch(err => console.error(err));
-  
+  if (loading) return <Loading label="Lining up the glasses…" />;
+  if (error) return <ErrorMessage error={error} onRetry={retry} />;
 
   return (
     <div>
-      <h2 className="mb-3">All Drinks</h2>
-      <p className="text-muted">Browse or search the full cocktail collection</p>
+      <header className="page-head">
+        <h1>All drinks</h1>
+        <p>Browse or search the full collection of {drinks.length} recipes.</p>
+      </header>
 
-      <Form className="mb-4 d-flex justify-content-center">
+      <div className="d-flex flex-column flex-md-row gap-3 mb-4">
         <Form.Control
-          type="text"
-          placeholder="Search by drink or ingredient..."
+          type="search"
+          placeholder="Search by drink or ingredient…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="shadow-sm w-50"
+          className="search-input"
+          aria-label="Search drinks"
         />
-      </Form>
-
-      <div className="row g-3">
-        {filteredDrinks.length > 0 ? (
-          filteredDrinks.map((drink) => (
-            <div className="col-md-6 col-lg-4" key={drink.id}>
-              <Card className="shadow-sm h-100 border-0">
-                <Card.Body>
-                  <Card.Img src={drink.image} alt={drink.name} style={{ width: "140px" }} />
-                  <Card.Title className="fs-5 d-flex align-items-center justify-content-center gap-2">
-                    {drink.name}
-                  </Card.Title>
-                  <Card.Text className="text-muted small">
-                    {drink.ingredients.join(" • ")}
-                  </Card.Text>
-                  <Button
-                    variant="warning"
-                    className="text-white w-100"
-                    onClick={() => handleShowModal(drink)}
-                  >
-                    View Recipe
-                  </Button>
-                </Card.Body>
-              </Card>
-            </div>
-          ))
-        ) : (
-          <p className="text-muted mt-4">No drinks found for {searchTerm};</p>
-        )}
+        <ButtonGroup aria-label="Filter by type">
+          {KINDS.map(([value, label]) => (
+            <Button
+              key={value || "all"}
+              variant={kind === value ? "primary" : "outline-primary"}
+              onClick={() => setKind(value)}
+            >
+              {label}
+            </Button>
+          ))}
+        </ButtonGroup>
       </div>
+
+      {filtered.length ? (
+        <div className="row g-4">
+          {filtered.map((d) => (
+            <div className="col-sm-6 col-lg-4" key={d.id}>
+              <DrinkCard drink={d} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Empty emoji="🔍" title="No drinks found">
+          Nothing matches “{searchTerm}”. Try a spirit like “gin” or “rum”.
+        </Empty>
+      )}
     </div>
   );
 }

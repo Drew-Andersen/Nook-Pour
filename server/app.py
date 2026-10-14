@@ -1,144 +1,118 @@
-from flask import Flask, jsonify
-from flask_cors import CORS
+"""Nook & Pour API (Flask + PostgreSQL)."""
+import os
+from pathlib import Path
+
 from dotenv import load_dotenv
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
+
+from catalog import INGREDIENT_CATEGORIES, list_ingredients, load_drinks, match_drinks
+from db import Database, close_db, database_url, get_db
 
 load_dotenv()
 
-app = Flask(__name__)
-CORS(app)
-
-# Sample Data to get Everything connected
-drinks = [
-    {
-        'id': "margarita",
-        'name': "Margarita",
-        'icon': "🥃",
-        'image': '/images/Marg-img.png',
-        'ingredients': ["Tequila", "Triple Sec", "Lime Juice"],
-        'instructions': [
-            "Combine ingredients in a shaker with ice.",
-            "Shake well and strain into a chilled glass.",
-            "Garnish with a lime wedge.",
-        ],
-    },
-    {
-        'id': "martini",
-        'name': "Martini",
-        'icon': "🍸",
-        'image': '/images/Martini-img.png',
-        'ingredients': ["Gin", "Dry Vermouth"],
-        'instructions': [
-            "Stir with ice and strain into a chilled martini glass.", 
-            "Garnish with an olive."
-        ],
-    },
-    {
-        'id': "mojito",
-        'name': "Mojito",
-        'icon': "🍹",
-        'image': '/images/Mojito-img.png',
-        'ingredients': ["Rum", "Lime Juice", "Simple Syrup", "Club Soda"],
-        'instructions': [
-            "Muddle mint and lime with simple syrup.",
-            "Add rum and ice, top with club soda.",
-            "Garnish with a mint sprig.",
-        ],
-    },
-    {
-        'id': "whiskey_sour",
-        'name': "Whiskey Sour",
-        'icon': "🥃",
-        'image': '/images/Whiskey-Sour-img.png',
-        'ingredients': ["Whiskey", "Lemon Juice", "Simple Syrup"],
-        'instructions': ["Shake with ice and strain into a rocks glass.", "Garnish with a cherry."],
-    },
-    {
-        'id': "old_fashion",
-        'name': "Old Fashion",
-        'icon': "🥃",
-        'image': '/images/Old-Fashion-img.png',
-        'ingredients': ["Whiskey", "Angostura Bitters", "Simple Syrup"],
-        'instructions': [
-            "Add whiskey, bitters, and simple syrup into a mixing glass with ice.",
-            "Stir until well-chilled.",
-            "Strain into a rocks glass over one large ice cube.",
-            "Optional: Garnish with an orange peel twist.",
-        ],
-    },
-    {
-        'id': "espresso_martini",
-        'name': "Espresso Martini",
-        'icon': "🍸",
-        'image': '/images/Espresso-Martini-img.png',
-        'ingredients': ["Vodka", "Coffee Liqueur", "Espresso", "Simple Syrup"],
-        'instructions': [
-            "Shake all ingredients with ice until frothy.",
-            "Strain into a chilled martini glass.",
-            "Garnish with coffee beans.",
-        ],
-    },
-    {
-        'id': "pumpkin_spice_white_russian",
-        'name': "Pumpkin Spice White Russian",
-        'icon': "🥃",
-        'image': '/images/Pumpkin-Spice-WR.png',
-        'ingredients': ["Vodka", "Coffee Liqueur", "Pumpkin Puree", "Heavy Cream"],
-        'instructions': [
-            "Optional: Rim a rocks glass with crushed graham crackers and pumpkin spice.",
-            "Fill the glass with ice.",
-            "Add vodka and coffee liqueur.",
-            "Pour in pumpkin mixture (pumpkin puree and heavy cream).",
-            "Stir gently to combine.",
-            "Optional: Top with freshly ground cinnamon.",
-        ],
-    },
-]
-
-ingredients = [
-    "Vodka",
-    "Gin",
-    "Rum",
-    "Tequila",
-    "Whiskey",
-    "Triple Sec",
-    "Dry Vermouth",
-    "Lime Juice",
-    "Lemon Juice",
-    "Simple Syrup",
-    "Angostura Bitters",
-    "Club Soda",
-    "Coffee Liqueur",
-    "Espresso",
-    "Heavy Cream",
-    "Pumpkin Puree",
-];
+CLIENT_DIST = Path(__file__).resolve().parent.parent / "client" / "dist"
 
 
-@app.route("/")
-def root():
-    return "THIS IS MY FLASK SERVER"
+def create_app(config=None):
+    app = Flask(__name__, static_folder=None)
+    app.config["DATABASE_URL"] = database_url()
+    app.config["CLIENT_DIST"] = CLIENT_DIST
+    app.json.sort_keys = False
+    app.json.ensure_ascii = False
+    if config:
+        app.config.update(config)
+
+    CORS(app, resources={r"/api/*": {"origins": os.getenv("CORS_ORIGINS", "*")}})
+    app.teardown_appcontext(close_db)
+
+    with app.app_context():
+        init_database(app)
+
+    register_routes(app)
+    return app
 
 
-@app.route("/api/drinks", methods=['GET'])
-def get_drinks():
-    return jsonify(drinks)
+def init_database(app):
+    """Create tables if needed and load the starter catalog into an empty database."""
+    db = app.config.get("SHARED_DB") or Database(app.config["DATABASE_URL"])
+    try:
+        db.create_schema()
+        if db.one("SELECT COUNT(*) AS n FROM drinks")["n"] == 0:
+            from seed import seed_database
 
-@app.route("/api/drinks/<drink_id>", methods=["GET"])
-def get_drink(drink_id):
-    for drink in drinks:
-        if drink['id'] == drink_id:
-            return jsonify(drink)
-    return jsonify({'error:': "Drink not found"}), 404
-
-@app.route("/api/ingredients", methods=["GET"])
-def get_ingredients():
-    return jsonify(ingredients)
+            seed_database(db, reset=False)
+            app.logger.info("Empty database — loaded the starter catalog.")
+    finally:
+        if not app.config.get("SHARED_DB"):
+            db.close()
 
 
-# Route Built for testing
-@app.route("/api/hello", methods=["GET"])
-def hello():
-    return jsonify({"message": "Server is working"})
+def register_routes(app):
+    @app.get("/api/health")
+    def health():
+        n = get_db().one("SELECT COUNT(*) AS n FROM drinks")["n"]
+        return jsonify({"status": "ok", "drinks": n})
+
+    @app.get("/api/ingredients")
+    def get_ingredients():
+        return jsonify(
+            {
+                "categories": [{"key": k, "label": v} for k, v in INGREDIENT_CATEGORIES.items()],
+                "ingredients": list_ingredients(get_db()),
+            }
+        )
+
+    @app.get("/api/drinks")
+    def get_drinks():
+        search = request.args.get("q", "").strip() or None
+        kind = request.args.get("kind", "").strip() or None
+        return jsonify(load_drinks(get_db(), search=search, kind=kind))
+
+    @app.get("/api/drinks/<slug>")
+    def get_drink(slug):
+        found = load_drinks(get_db(), slug=slug)
+        if not found:
+            return jsonify({"error": "Drink not found"}), 404
+        return jsonify(found[0])
+
+    @app.post("/api/match")
+    def match():
+        body = request.get_json(silent=True) or {}
+        names = body.get("ingredients")
+        if not isinstance(names, list):
+            return jsonify({"error": 'Send JSON like {"ingredients": ["Gin", "Tonic Water"]}'}), 400
+        return jsonify(match_drinks(load_drinks(get_db()), names))
+
+    @app.errorhandler(HTTPException)
+    def http_error(err):
+        if request.path.startswith("/api/"):
+            return jsonify({"error": err.description}), err.code
+        return err
+
+    @app.errorhandler(Exception)
+    def server_error(err):
+        app.logger.exception(err)
+        return jsonify({"error": "Something went wrong on our end."}), 500
+
+    # In production Flask also serves the built React app from client/dist.
+    # In development, Vite serves the client and proxies /api here.
+    @app.get("/", defaults={"path": ""})
+    @app.get("/<path:path>")
+    def client(path):
+        dist = Path(app.config["CLIENT_DIST"])
+        if path.startswith("api/"):
+            return jsonify({"error": "Not found"}), 404
+        if not (dist / "index.html").exists():
+            return jsonify({"message": "Nook & Pour API is running. Start the client with `npm run dev`."})
+        if path and (dist / path).is_file():
+            return send_from_directory(dist, path)
+        return send_from_directory(dist, "index.html")
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    create_app().run(
+        port=int(os.getenv("PORT", "5000")),
+        debug=os.getenv("FLASK_DEBUG", "1") == "1",
+    )

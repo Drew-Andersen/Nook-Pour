@@ -1,4 +1,6 @@
-flask
-flask-cors
-python-dotenv
-mysql-connector-python
+Flask==3.1.2
+flask-cors==6.0.1
+psycopg[binary]==3.2.10
+python-dotenv==1.2.1
+gunicorn==23.0.0
+pytest==8.4.2

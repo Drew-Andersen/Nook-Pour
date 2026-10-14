@@ -1,203 +1,150 @@
-# Nook-Pour
-
 <div align="center">
+  <img src="client/public/images/logo.png" alt="Nook & Pour logo" width="140" />
+
+# Nook & Pour
+
+**Tell it what's in your cabinet. It tells you what to pour.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 </div>
 
-<div align="center">
+Nook & Pour is a full-stack cocktail app. Pick the spirits, mixers and garnishes you have, and it shows:
 
-  <p align="center">
-        <br />
-    <a href="">
-      <img src="client/public/images/logo.png" alt="Logo" width="140" height="150">
-    </a><br />
-    Brought to you by Drew Andersen<br />
-    <a href="https://github.com/Drew-Andersen/Nook-Pour"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Drew-Andersen/Nook-Pour">View Demo(Broken)</a>
-    ·
-    <a href="https://github.com/Drew-Andersen/Nook-Pour">Report Bug</a>
-    ·
-    <a href="https://github.com/Drew-Andersen/Nook-Pour">Request Feature</a>
+- **Ready to pour:** every drink you can make right now
+- **Almost there:** drinks you're one or two ingredients away from, with what's missing
+- **Best next buy:** the single bottle that would unlock the most new drinks
 
-  </p>
-</div>
+You can also browse and search all 23 recipes (cocktails and shots), open a full recipe page with measurements, and save favorites.
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#tech-stack">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+## Tech stack
 
-## About The Project
+| Layer    | Tech |
+| -------- | ---- |
+| Frontend | React 18, React Router 7, React Bootstrap, Vite |
+| Backend  | Python, Flask, REST API |
+| Database | PostgreSQL (via psycopg), with plain SQL in `server/schema.sql` |
+| Testing  | pytest (runs on in-memory SQLite, so no Postgres needed for tests) |
 
-**Nook & Pour** is a full-stack cocktoil discovery app that allows users to:
+## Getting started
 
-- Select ingredients that have on hand
-- View drinks they can make
-- Explore new cocktail recipes
+### Prerequisites
 
-The application currently pulls data from a Flask backend (`app.py`) and is structured to later integrate with a SQL database.
+- Node.js 18+
+- Python 3.10+
+- PostgreSQL 14+ running locally (or a hosted URL from Neon, Supabase, Render, etc.)
 
-### Tech Stack:
+### 1. Install
 
-### Frontend
-
-- React
-- React Router
-- React Bootstrap
-- JavaScript (ES6+)
-
-### Backend
-
-- Python
-- Flask
-- REST API architecture
-
-### Planned Backend Upgrade
-
-- SQL Database (PostgreSQL or SQL Lite)
-
-### Development Tools
-
-- npm
-- VS Code
-- Cit & GitHub
-
-## Getting Started
-
-### Local Installation / Testing
-
-1. Clone the rep
-
-``` bash
+```bash
 git clone git@github.com:Drew-Andersen/Nook-Pour.git
 cd Nook-Pour
+
+python3 -m venv server/venv
+source server/venv/bin/activate          # Windows: server\venv\Scripts\activate
+
+npm run setup                            # pip + npm installs for server, root and client
 ```
 
-2. Backend Setup (Flask)
+### 2. Configure the database
 
-``` bash
-cd server
-python3 -m venv venv
-source venc/bin/activate # For Mac or Linux
-pip install requirements/txt
-python app.py
+```bash
+createdb nook_pour
+cp server/.env.example server/.env       # then fill in your Postgres user/password
 ```
 
-The Flask API should now be running at:
+`server/.env` accepts either a single `DATABASE_URL` or the separate `POSTGRESQL_*` values.
 
-    http://localhost:5000
+> No Postgres handy? Set `DATABASE_URL=sqlite:///nook_pour.db` for a quick zero-setup demo.
 
-3. Frontend Setup (React)
+### 3. Run it
 
-Open a new terminal:
-
-``` bash
-cd client
-npm install
-npm start
+```bash
+npm run dev
 ```
 
-The React app should run at:
+- React app: http://localhost:5173
+- Flask API: http://localhost:5000 (Vite proxies `/api` to it)
 
-    http://localhost:3000
+On first start the API creates the tables and loads the starter recipes automatically. To reset the data later, run `npm run seed`.
 
-## Usage
+## Scripts (from the project root)
 
-1. Navigate to the Ingredients page
-2. Select available ingredients
-3. Click **View Drinks**
-4. See matching cocktails
+| Command         | What it does |
+| --------------- | ------------ |
+| `npm run dev`   | Runs Flask and Vite together |
+| `npm run seed`  | Drops and reloads all tables from `server/seed_data.py` |
+| `npm test`      | Runs the API test suite |
+| `npm run lint`  | Lints the React code |
+| `npm run build` | Builds the React app into `client/dist` |
+| `npm start`     | Production server: gunicorn serves the API **and** the built React app |
+
+## API
+
+| Method | Route                  | Description |
+| ------ | ---------------------- | ----------- |
+| GET    | `/api/health`          | Status and drink count |
+| GET    | `/api/ingredients`     | Ingredients plus category labels |
+| GET    | `/api/drinks`          | All drinks. Optional `?q=gin` (name or ingredient) and `?kind=shot` |
+| GET    | `/api/drinks/:slug`    | One drink, e.g. `/api/drinks/old-fashioned` |
+| POST   | `/api/match`           | Body `{"ingredients": ["Gin", "Tonic Water"]}` → `can_make`, `almost`, `unlocks` |
+
+Optional ingredients (garnishes, salt rims) are shown in recipes but never stop a drink from matching.
+
+## Project structure
+
+```
+client/                 React app (Vite)
+  src/pages/            Home, My Bar, What Can I Make?, All Drinks, Drink detail, Favorites, 404
+  src/components/       DrinkCard, DrinkModal, Recipe, Header, ...
+  src/lib/api.js        All fetch calls in one place
+server/
+  app.py                Flask app + routes (also serves client/dist in production)
+  catalog.py            Queries and the matching logic
+  db.py                 Postgres/SQLite connection wrapper
+  schema.sql            Table definitions
+  seed_data.py          The recipe catalog: add drinks here
+  tests/                API tests
+```
+
+### Adding a drink
+
+Add an entry to `DRINKS` in `server/seed_data.py` (and any new ingredient to `INGREDIENTS`), drop an image in `client/public/images/` if you have one, then run `npm run seed`. Drinks without an image show their emoji.
+
+## Deploying (single service)
+
+Any host that runs Python and Node works (Render, Railway, Fly.io):
+
+- **Build command:** `pip install -r server/requirements.txt && npm run build`
+- **Start command:** `npm start` (or `cd server && gunicorn 'app:create_app()'`)
+- **Environment:** `DATABASE_URL` pointing at your Postgres database
+
+Flask serves the built React app and the API from the same URL, so there's no CORS setup to manage.
 
 ## Roadmap
 
-### ✅ MVP
+### MVP (current focus)
 
--   [x] Ingredient selection UI
--   [x] Drinks view page
--   [x] Flask API integration
--   [ ] Error handling improvements
--   [ ] Clean UI polish
+- [x] Ingredient selection, persisted between visits
+- [x] Matching with "almost there" and "best next buy"
+- [x] PostgreSQL database
+- [x] Search, filters, recipe pages, favorites, 404 page
+- [x] Loading and error states
+- [ ] Polish the app
+- [ ] Deploy and release to the public
 
-### 🔐 Authentication (Planned)
+### Future development (after the MVP is public)
 
--   [ ] User registration
--   [ ] Login system
--   [ ] Protected routes
-
-### 🗄 Database Integration
-
--   [ ] Replace static data in `app.py`
--   [ ] SQL database setup
-
-### 🌟 Future Enhancements
-
--   [ ] 404 Page
--   [ ] Save favorite drinks
--   [ ] Deploy application
-
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch 
-``` bash
-git checkout -b feature/AmazingFeature
-```
-3. Commit your Changes 
-``` bash
-git commit -m 'Add some AmazingFeature'
-```
-4. Push to the Branch 
-``` bash
-git push origin feature/AmazingFeature
-```
-5. Open a Pull Request
-
+- [ ] **User accounts / log in:** save each user's bar and favorites to their account so they
+  sync everywhere. (Today they're stored in the browser's localStorage, so they stay on one device.)
+- [ ] **AI agent:** an assistant built into Nook & Pour.
+- [ ] Submit your own recipes
+- [ ] **Apple App Store app:** release Nook & Pour as an iOS app, possibly priced at $0.99.
 
 ## License
 
-This project is licensed under the MIT license.
-
-See `LICENSE.txt` for more information.
-
+MIT. See `LICENSE`.
 
 ## Contact
 
-**Drew Andersen** <br />
-[GitHub](https://github.com/Drew-Andersen) <br />
-[Email](andrewtandersen@gmail.com) <br />
- 
-
-## Project Links:
-
-[Github Repository](https://github.com/Drew-Andersen/Nook-Pour)
-
-[Deployment- link later]()
+**Drew Andersen** · [GitHub](https://github.com/Drew-Andersen) · [Email](mailto:andrewtandersen@gmail.com)

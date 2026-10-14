@@ -8,28 +8,22 @@ import Home from "./pages/Home";
 import Ingredients from "./pages/Ingredients";
 import Drinks from "./pages/Drinks";
 import AllDrinks from "./pages/AllDrinks";
+import DrinkDetail from "./pages/DrinkDetail";
+import Favorites from "./pages/Favorites";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/ingredients",
-        element: <Ingredients />,
-      },
-      {
-        path: "/drinks",
-        element: <Drinks />,
-      },
-      {
-        path: "/alldrinks",
-        element: <AllDrinks />,
-      },
+      { index: true, element: <Home /> },
+      { path: "ingredients", element: <Ingredients /> },
+      { path: "drinks", element: <Drinks /> },
+      { path: "drinks/:slug", element: <DrinkDetail /> },
+      { path: "alldrinks", element: <AllDrinks /> },
+      { path: "favorites", element: <Favorites /> },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

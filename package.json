@@ -1,20 +1,20 @@
 {
   "name": "nook-pour",
-  "version": "1.0.0",
-  "description": "Cocktail making App",
-  "main": "server/app.py",
+  "version": "2.0.0",
+  "description": "Pick the ingredients you have and find cocktails you can make",
+  "private": true,
   "scripts": {
-    "start": "cd server && python app.py",
-    "develop": "concurrently \"cd server && python app.py\" \"cd client && npm run dev\"",
-    "install": "cd server && pip install -r requirements.txt && cd ../client && npm i",
-    "build": "cd client && npm run build",
-    "setup-db": "mysql -u root -p < server/schema.sql",
-    "render-build": "npm install && npm run build"
+    "setup": "pip install -r server/requirements.txt && npm install && npm --prefix client install",
+    "dev": "concurrently -n api,web -c yellow,cyan \"cd server && python app.py\" \"npm --prefix client run dev\"",
+    "seed": "cd server && python seed.py",
+    "test": "cd server && python -m pytest -q",
+    "lint": "npm --prefix client run lint",
+    "build": "npm --prefix client install && npm --prefix client run build",
+    "start": "cd server && gunicorn 'app:create_app()' --bind 0.0.0.0:${PORT:-5000}"
   },
-  "keywords": [],
   "author": "Drew Andersen",
+  "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
-  },
-  "license": "ISC"
+  }
 }
