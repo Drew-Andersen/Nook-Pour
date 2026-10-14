@@ -15,7 +15,7 @@ Nook & Pour is a full-stack cocktail app. Pick the spirits, mixers and garnishes
 - **Almost there:** drinks you're one or two ingredients away from, with what's missing
 - **Best next buy:** the single bottle that would unlock the most new drinks
 
-You can also browse and search all 23 recipes (cocktails and shots), open a full recipe page with measurements, and save favorites.
+You can also browse and search all recipes (cocktails and shots), open a full recipe page with measurements, and save favorites.
 
 ## Tech stack
 
