@@ -17,9 +17,22 @@ def list_ingredients(db):
     return rows
 
 
-def load_drinks(db, search=None, kind=None, slug=None):
-    """Return fully assembled drinks (ingredients + steps), sorted by name."""
+def load_drinks(db, search=None, kind=None, slug=None, flavors=None, strength=None, vibes=None):
+    """Return fully assembled drinks (ingredients, steps, taste profile), sorted by name.
+
+    flavors / vibes: lists of tags; a drink must have ALL of them to be included.
+    strength: "light" | "balanced" | "strong".
+    """
     where, params = [], []
+    for tag_type, tags in (("flavor", flavors or []), ("vibe", vibes or [])):
+        for tag in tags:
+            where.append(
+                "d.id IN (SELECT drink_id FROM drink_tags WHERE tag_type = %s AND tag = %s)"
+            )
+            params += [tag_type, tag.strip().lower()]
+    if strength:
+        where.append("d.strength = %s")
+        params.append(strength.strip().lower())
     if slug:
         where.append("d.slug = %s")
         params.append(slug)
@@ -65,6 +78,14 @@ def load_drinks(db, search=None, kind=None, slug=None):
                 "optional": bool(c["optional"]),
             }
         )
+    tags = db.query(
+        f"""SELECT drink_id, tag_type, tag FROM drink_tags
+            WHERE drink_id IN ({marks}) ORDER BY drink_id, tag_type, position""",
+        ids,
+    )
+    tags_by_drink = defaultdict(lambda: {"flavor": [], "vibe": []})
+    for t in tags:
+        tags_by_drink[t["drink_id"]][t["tag_type"]].append(t["tag"])
     steps_by_drink = defaultdict(list)
     for s in steps:
         steps_by_drink[s["drink_id"]].append(s["step"])
@@ -78,6 +99,9 @@ def load_drinks(db, search=None, kind=None, slug=None):
             "glass": d["glass"],
             "icon": d["icon"],
             "image": d["image_url"],
+            "flavors": tags_by_drink[d["id"]]["flavor"],
+            "strength": d["strength"],
+            "vibes": tags_by_drink[d["id"]]["vibe"],
             "ingredients": by_drink[d["id"]],
             "instructions": steps_by_drink[d["id"]],
         }

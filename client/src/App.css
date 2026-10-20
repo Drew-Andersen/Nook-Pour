@@ -8,7 +8,8 @@
   --np-amber: #e57b28;
   --np-amber-dark: #b8560f;
   --np-amber-tint: #fde6cf;
-  --np-shadow: 0 1px 2px rgba(59, 35, 20, 0.06), 0 8px 24px rgba(59, 35, 20, 0.07);
+  --np-shadow:
+    0 1px 2px rgba(59, 35, 20, 0.06), 0 8px 24px rgba(59, 35, 20, 0.07);
 
   --bs-body-bg: var(--np-cream);
   --bs-body-color: var(--np-ink);
@@ -29,11 +30,21 @@ body {
   color: var(--np-ink);
 }
 
-h1, h2, h3, h4, .btn, .nav-link, .chip, .badge {
+h1,
+h2,
+h3,
+h4,
+.btn,
+.nav-link,
+.chip,
+.badge {
   font-family: "Josefin Sans", system-ui, sans-serif;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 700;
   color: var(--np-ink);
 }
@@ -290,13 +301,17 @@ h1, h2, h3, h4 {
   overflow: hidden;
   cursor: pointer;
   box-shadow: var(--np-shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .drink-card:hover,
 .drink-card:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 2px 4px rgba(59, 35, 20, 0.08), 0 16px 32px rgba(59, 35, 20, 0.12);
+  box-shadow:
+    0 2px 4px rgba(59, 35, 20, 0.08),
+    0 16px 32px rgba(59, 35, 20, 0.12);
   outline: none;
 }
 
@@ -364,7 +379,11 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  background: radial-gradient(circle at 50% 60%, #fff 0%, var(--np-amber-tint) 100%);
+  background: radial-gradient(
+    circle at 50% 60%,
+    #fff 0%,
+    var(--np-amber-tint) 100%
+  );
   overflow: hidden;
 }
 
@@ -375,16 +394,26 @@ h1, h2, h3, h4 {
   mix-blend-mode: multiply; /* blends the white illustration backgrounds */
 }
 
-.drink-image-md { height: 200px; }
-.drink-image-lg { height: 260px; border-radius: 16px; }
-.drink-image-xl { height: 420px; border-radius: 24px; }
+.drink-image-md {
+  height: 200px;
+}
+.drink-image-lg {
+  height: 260px;
+  border-radius: 16px;
+}
+.drink-image-xl {
+  height: 420px;
+  border-radius: 24px;
+}
 
 .drink-emoji {
   font-size: 4.5rem;
   line-height: 1;
 }
 
-.drink-image-xl .drink-emoji { font-size: 8rem; }
+.drink-image-xl .drink-emoji {
+  font-size: 8rem;
+}
 
 /* The illustrations are 408x612 with lots of white space around the glass,
    so zoom them to let the drink fill the frame (white space is cropped). */
@@ -414,7 +443,9 @@ h1, h2, h3, h4 {
   line-height: 1;
   display: inline-grid;
   place-items: center;
-  transition: transform 0.12s ease, background 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease;
 }
 
 .fav-btn:hover {
@@ -623,7 +654,9 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 767.98px) {
-  .drink-image-xl { height: 300px; }
+  .drink-image-xl {
+    height: 300px;
+  }
 }
 
 /* ---------- Status states ---------- */
@@ -637,4 +670,60 @@ h1, h2, h3, h4 {
 .status-emoji {
   font-size: 3.5rem;
   margin-bottom: 0.75rem;
+}
+/* ---------- Taste profile ---------- */
+.taste-profile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.taste-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: var(--np-amber-tint);
+  color: var(--np-amber-dark);
+}
+
+.taste-strength,
+.taste-vibe {
+  background: #fff;
+  color: var(--np-ink);
+  border: 1px solid var(--np-line);
+}
+
+.strength-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 0.8rem;
+}
+
+.strength-meter i {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--np-line);
+}
+
+.strength-meter i:nth-child(1) {
+  height: 40%;
+}
+.strength-meter i:nth-child(2) {
+  height: 70%;
+}
+.strength-meter i:nth-child(3) {
+  height: 100%;
+}
+.strength-light i:nth-child(1),
+.strength-balanced i:nth-child(-n + 2),
+.strength-strong i {
+  background: var(--np-amber);
 }

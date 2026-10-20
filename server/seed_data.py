@@ -3,6 +3,18 @@
 Every ingredient name used in DRINKS must appear in INGREDIENTS.
 """
 
+# ---------------------------------------------------------------- taste profiles
+# Every drink is tagged so the future AI Personal Bartender can match people to drinks.
+#   "flavors":  1–4 from FLAVORS      (what it tastes like)
+#   "strength": one of STRENGTHS      (light and easy / balanced / spirit forward)
+#   "vibes":    1–2 from VIBES        (refreshing / rich and smooth / new and adventurous)
+FLAVORS = [
+    "sweet", "sour", "fruity", "bitter", "smoky", "herbal", "spicy", "citrusy",
+    "creamy", "savory",
+]
+STRENGTHS = ["light", "balanced", "strong"]
+VIBES = ["refreshing", "rich", "adventurous"]
+
 INGREDIENTS = {
     "spirit": [
         "Vodka", "Gin", "Rum", "Coconut Rum", "Spiced Rum", "Tequila", "Mezcal", 
@@ -35,6 +47,7 @@ DRINKS = [
         "slug": "margarita", "name": "Margarita", "kind": "cocktail", "icon": "🍹",
         "glass": "Coupe or rocks", "image": "/images/Marg-img.png",
         "description": "Bright, tart and a little salty — the tequila classic.",
+        "flavors": ["sour", "citrusy", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Tequila", "2 oz", False), ("Triple Sec", "1 oz", False),
             ("Lime Juice", "1 oz", False), ("Salt", "for the rim", True),
@@ -51,6 +64,7 @@ DRINKS = [
         "slug": "martini", "name": "Martini", "kind": "cocktail", "icon": "🍸",
         "glass": "Martini", "image": "/images/Martini-img.png",
         "description": "Cold, clean and bracing. Stirred, never rushed.",
+        "flavors": ["herbal", "savory"], "strength": "strong", "vibes": ["adventurous"],
         "ingredients": [
             ("Gin", "2½ oz", False), ("Dry Vermouth", "½ oz", False), ("Olive", "1–3", True),
         ],
@@ -64,6 +78,7 @@ DRINKS = [
         "slug": "mojito", "name": "Mojito", "kind": "cocktail", "icon": "🌿",
         "glass": "Highball", "image": "/images/Mojito-img.png",
         "description": "Mint, lime and rum topped with bubbles. Summer in a glass.",
+        "flavors": ["herbal", "citrusy", "sweet"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Lime Juice", "¾ oz", False),
             ("Simple Syrup", "½ oz", False), ("Mint", "6–8 leaves", False),
@@ -80,6 +95,7 @@ DRINKS = [
         "slug": "whiskey-sour", "name": "Whiskey Sour", "kind": "cocktail", "icon": "🥃",
         "glass": "Rocks", "image": "/images/Whiskey-Sour-img.png",
         "description": "Sweet, sour and warming — the perfect intro to whiskey cocktails.",
+        "flavors": ["sour", "sweet", "citrusy"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Whiskey", "2 oz", False), ("Lemon Juice", "¾ oz", False),
             ("Simple Syrup", "¾ oz", False), ("Cocktail Cherry", "1", True),
@@ -94,6 +110,7 @@ DRINKS = [
         "slug": "old-fashioned", "name": "Old Fashioned", "kind": "cocktail", "icon": "🥃",
         "glass": "Rocks", "image": "/images/Old-Fashion-img.png",
         "description": "Whiskey, a touch of sugar and bitters. Simple and timeless.",
+        "flavors": ["sweet", "bitter"], "strength": "strong", "vibes": ["rich"],
         "ingredients": [
             ("Whiskey", "2 oz", False), ("Simple Syrup", "¼ oz", False),
             ("Angostura Bitters", "2 dashes", False), ("Orange Peel", "1 twist", True),
@@ -109,6 +126,7 @@ DRINKS = [
         "slug": "espresso-martini", "name": "Espresso Martini", "kind": "cocktail", "icon": "☕",
         "glass": "Martini or coupe", "image": "/images/Espresso-Martini-img.png",
         "description": "Rich coffee and vodka shaken until silky and foamy.",
+        "flavors": ["bitter", "sweet"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Coffee Liqueur", "½ oz", False),
             ("Espresso", "1 oz", False), ("Simple Syrup", "¼ oz", False),
@@ -125,6 +143,7 @@ DRINKS = [
         "kind": "cocktail", "icon": "🎃", "glass": "Rocks",
         "image": "/images/Pumpkin-Spice-WR.png",
         "description": "A cozy fall twist on the White Russian.",
+        "flavors": ["creamy", "sweet", "spicy"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "1½ oz", False), ("Coffee Liqueur", "1 oz", False),
             ("Pumpkin Puree", "1 tbsp", False), ("Heavy Cream", "1 oz", False),
@@ -143,6 +162,7 @@ DRINKS = [
         "slug": "daiquiri", "name": "Daiquiri", "kind": "cocktail", "icon": "🍸",
         "glass": "Coupe", "image": "/images/Daiquiri-img.png",
         "description": "Rum, lime and sugar in perfect balance. Not the slushy kind.",
+        "flavors": ["sour", "citrusy", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Lime Juice", "1 oz", False),
             ("Simple Syrup", "¾ oz", False), ("Lime Wedge", "1", True),
@@ -156,6 +176,7 @@ DRINKS = [
         "slug": "moscow-mule", "name": "Moscow Mule", "kind": "cocktail", "icon": "🫚",
         "glass": "Copper mug", "image": "/images/Moscow-Mule-img.png",
         "description": "Spicy ginger beer, vodka and lime over lots of ice.",
+        "flavors": ["spicy", "citrusy"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Ginger Beer", "4 oz", False),
             ("Lime Juice", "½ oz", False), ("Lime Wedge", "1", True),
@@ -171,6 +192,7 @@ DRINKS = [
         "slug": "negroni", "name": "Negroni", "kind": "cocktail", "icon": "🍊",
         "glass": "Rocks", "image": "/images/Negroni-img.png",
         "description": "Equal parts gin, Campari and sweet vermouth. Bitter and bold.",
+        "flavors": ["bitter", "sweet", "herbal"], "strength": "strong", "vibes": ["adventurous"],
         "ingredients": [
             ("Gin", "1 oz", False), ("Campari", "1 oz", False),
             ("Sweet Vermouth", "1 oz", False), ("Orange Peel", "1 twist", True),
@@ -185,6 +207,7 @@ DRINKS = [
         "slug": "cosmopolitan", "name": "Cosmopolitan", "kind": "cocktail", "icon": "🍸",
         "glass": "Martini", "image": "/images/Cosmopolitan-img.png",
         "description": "Pink, tart and crisp — cranberry and citrus with vodka.",
+        "flavors": ["fruity", "sour", "citrusy"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "1½ oz", False), ("Triple Sec", "½ oz", False),
             ("Cranberry Juice", "1 oz", False), ("Lime Juice", "½ oz", False),
@@ -200,6 +223,7 @@ DRINKS = [
         "slug": "paloma", "name": "Paloma", "kind": "cocktail", "icon": "🍹",
         "glass": "Highball", "image": "/images/Paloma-img.png",
         "description": "Tequila and grapefruit soda — Mexico's favorite highball.",
+        "flavors": ["citrusy", "fruity", "sour"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Tequila", "2 oz", False), ("Grapefruit Soda", "4 oz", False),
             ("Lime Juice", "½ oz", False), ("Salt", "pinch", True),
@@ -216,6 +240,7 @@ DRINKS = [
         "slug": "tom-collins", "name": "Tom Collins", "kind": "cocktail", "icon": "🍋",
         "glass": "Collins", "image": "/images/Tom-Collins-img.png",
         "description": "Sparkling gin lemonade for grown-ups.",
+        "flavors": ["citrusy", "sour", "sweet"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "2 oz", False), ("Lemon Juice", "1 oz", False),
             ("Simple Syrup", "½ oz", False), ("Club Soda", "top", False),
@@ -232,6 +257,7 @@ DRINKS = [
         "slug": "gin-and-tonic", "name": "Gin & Tonic", "kind": "cocktail", "icon": "🧊",
         "glass": "Highball", "image": "/images/Gin-Tonic-img.png",
         "description": "Two ingredients, endless refreshment.",
+        "flavors": ["herbal", "bitter", "citrusy"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "2 oz", False), ("Tonic Water", "4 oz", False), ("Lime Wedge", "1", True),
         ],
@@ -245,6 +271,7 @@ DRINKS = [
         "slug": "cuba-libre", "name": "Cuba Libre", "kind": "cocktail", "icon": "🥤",
         "glass": "Highball", "image": "/images/Cuba-Libre-img.png",
         "description": "Rum and cola with a squeeze of lime that changes everything.",
+        "flavors": ["sweet", "citrusy"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Cola", "4 oz", False),
             ("Lime Juice", "½ oz", False), ("Lime Wedge", "1", True),
@@ -259,6 +286,7 @@ DRINKS = [
         "slug": "manhattan", "name": "Manhattan", "kind": "cocktail", "icon": "🍒",
         "glass": "Coupe", "image": "/images/Manhattan-img.png",
         "description": "Whiskey and sweet vermouth, stirred and elegant.",
+        "flavors": ["sweet", "bitter", "herbal"], "strength": "strong", "vibes": ["rich"],
         "ingredients": [
             ("Whiskey", "2 oz", False), ("Sweet Vermouth", "1 oz", False),
             ("Angostura Bitters", "2 dashes", False), ("Cocktail Cherry", "1", True),
@@ -273,6 +301,7 @@ DRINKS = [
         "slug": "white-russian", "name": "White Russian", "kind": "cocktail", "icon": "🥛",
         "glass": "Rocks", "image": "/images/White-Russian-img.png",
         "description": "Vodka, coffee liqueur and cream. The Dude abides.",
+        "flavors": ["creamy", "sweet"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Coffee Liqueur", "1 oz", False),
             ("Heavy Cream", "1 oz", False),
@@ -287,6 +316,7 @@ DRINKS = [
         "slug": "gimlet", "name": "Gimlet", "kind": "cocktail", "icon": "🍸",
         "glass": "Coupe", "image": "/images/Gimlet-img.png",
         "description": "Gin and lime, sharp and refreshing.",
+        "flavors": ["sour", "citrusy", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "2 oz", False), ("Lime Juice", "¾ oz", False),
             ("Simple Syrup", "¾ oz", False), ("Lime Wedge", "1", True),
@@ -301,6 +331,7 @@ DRINKS = [
         "slug": "screwdriver", "name": "Screwdriver", "kind": "cocktail", "icon": "🍊",
         "glass": "Highball", "image": "/images/Screwdriver-img.png",
         "description": "Vodka and orange juice. Brunch approved.",
+        "flavors": ["fruity", "citrusy", "sweet"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Orange Juice", "4 oz", False),
             ("Orange Slice", "1", True),
@@ -315,6 +346,7 @@ DRINKS = [
         "slug": "tequila-sunrise", "name": "Tequila Sunrise", "kind": "cocktail", "icon": "🌅",
         "glass": "Highball", "image": "/images/Tequila-Sunrise-img.png",
         "description": "Orange juice and tequila with a grenadine sunrise.",
+        "flavors": ["fruity", "sweet", "citrusy"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Tequila", "2 oz", False), ("Orange Juice", "4 oz", False),
             ("Grenadine", "½ oz", False), ("Cocktail Cherry", "1", True),
@@ -330,6 +362,7 @@ DRINKS = [
         "slug": "kamikaze", "name": "Kamikaze", "kind": "shot", "icon": "🥂",
         "glass": "Shot glasses (makes 2)", "image": "/images/Kamikaze-img.png",
         "description": "Vodka, triple sec and lime — a crowd-pleasing shot.",
+        "flavors": ["sour", "citrusy", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "1 oz", False), ("Triple Sec", "1 oz", False), ("Lime Juice", "1 oz", False),
         ],
@@ -342,6 +375,7 @@ DRINKS = [
         "slug": "lemon-drop-shot", "name": "Lemon Drop Shot", "kind": "shot", "icon": "🍋",
         "glass": "Shot glasses (makes 2)", "image": "/images/Lemon-Drop-Shot-img.png",
         "description": "Sweet-tart and dangerously easy to drink.",
+        "flavors": ["sweet", "sour", "citrusy"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "1½ oz", False), ("Lemon Juice", "¾ oz", False),
             ("Simple Syrup", "½ oz", False),
@@ -357,6 +391,7 @@ DRINKS = [
         "slug": "tequila-shot", "name": "Tequila Shot", "kind": "shot", "icon": "🧂",
         "glass": "Shot glass", "image": "/images/Tequila-Shot-img.png",
         "description": "Lick, shoot, suck. The classic ritual.",
+        "flavors": ["savory", "citrusy"], "strength": "strong", "vibes": ["adventurous"],
         "ingredients": [
             ("Tequila", "1½ oz", False), ("Salt", "pinch", True), ("Lime Wedge", "1", True),
         ],
@@ -370,6 +405,7 @@ DRINKS = [
         "slug": "aperol-spritz", "name": "Aperol Spritz", "kind": "cocktail", "icon": "🥂",
         "glass": "Wine glass", "image": "/images/Aperol-Spritz-img.png",
         "description": "Bittersweet, bubbly and bright orange. Italy's favorite aperitivo.",
+        "flavors": ["bitter", "citrusy", "sweet"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Prosecco", "3 oz", False), ("Aperol", "2 oz", False),
             ("Club Soda", "1 oz", False), ("Orange Slice", "1", True),
@@ -384,6 +420,7 @@ DRINKS = [
         "slug": "french-75", "name": "French 75", "kind": "cocktail", "icon": "🥂",
         "glass": "Champagne flute", "image": "/images/French-75-img.png",
         "description": "Gin, lemon and bubbles. Celebratory and dangerously smooth.",
+        "flavors": ["citrusy", "sour", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "1 oz", False), ("Lemon Juice", "½ oz", False),
             ("Simple Syrup", "½ oz", False), ("Prosecco", "3 oz", False),
@@ -399,6 +436,7 @@ DRINKS = [
         "slug": "hugo-spritz", "name": "Hugo Spritz", "kind": "cocktail", "icon": "🌸",
         "glass": "Wine glass", "image": "/images/Hugo-Spritz-img.png",
         "description": "Elderflower, mint and prosecco. Light, floral and refreshing.",
+        "flavors": ["herbal", "sweet", "fruity"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Prosecco", "3 oz", False), ("Elderflower Liqueur", "1 oz", False),
             ("Club Soda", "1 oz", False), ("Mint", "4–5 leaves", False),
@@ -415,6 +453,7 @@ DRINKS = [
         "slug": "pina-colada", "name": "Piña Colada", "kind": "cocktail", "icon": "🍍",
         "glass": "Hurricane", "image": "/images/Pina-Colada-img.png",
         "description": "Creamy coconut and pineapple. A vacation you can blend.",
+        "flavors": ["sweet", "fruity", "creamy"], "strength": "balanced", "vibes": ["refreshing", "rich"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Coconut Cream", "1½ oz", False),
             ("Pineapple Juice", "3 oz", False), ("Pineapple Wedge", "1", True),
@@ -431,6 +470,7 @@ DRINKS = [
         "slug": "blue-hawaiian", "name": "Blue Hawaiian", "kind": "cocktail", "icon": "🌊",
         "glass": "Hurricane", "image": "/images/Blue-Hawaiian-img.png",
         "description": "Tropical, creamy and electric blue.",
+        "flavors": ["fruity", "sweet", "creamy"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "1½ oz", False), ("Blue Curaçao", "¾ oz", False),
             ("Pineapple Juice", "3 oz", False), ("Coconut Cream", "¾ oz", False),
@@ -446,6 +486,7 @@ DRINKS = [
         "slug": "bloody-mary", "name": "Bloody Mary", "kind": "cocktail", "icon": "🍅",
         "glass": "Highball", "image": "/images/Bloody-Mary-img.png",
         "description": "Savory, spicy and the undisputed king of brunch.",
+        "flavors": ["savory", "spicy", "sour"], "strength": "balanced", "vibes": ["adventurous"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Tomato Juice", "4 oz", False),
             ("Lemon Juice", "½ oz", False), ("Worcestershire Sauce", "2 dashes", False),
@@ -463,6 +504,7 @@ DRINKS = [
         "slug": "spicy-margarita", "name": "Spicy Margarita", "kind": "cocktail", "icon": "🌶️",
         "glass": "Rocks", "image": "/images/Spicy-Margarita-img.png",
         "description": "The classic margarita with a jalapeño kick.",
+        "flavors": ["spicy", "sour", "citrusy"], "strength": "balanced", "vibes": ["refreshing", "adventurous"],
         "ingredients": [
             ("Tequila", "2 oz", False), ("Lime Juice", "1 oz", False),
             ("Triple Sec", "½ oz", False), ("Agave Syrup", "½ oz", False),
@@ -479,6 +521,7 @@ DRINKS = [
         "slug": "oaxaca-old-fashioned", "name": "Oaxaca Old Fashioned", "kind": "cocktail",
         "icon": "🔥", "glass": "Rocks", "image": "/images/Oaxaca-Old-Fashioned-img.png",
         "description": "A smoky agave spin on the Old Fashioned.",
+        "flavors": ["smoky", "bitter", "sweet"], "strength": "strong", "vibes": ["rich", "adventurous"],
         "ingredients": [
             ("Tequila", "1½ oz", False), ("Mezcal", "½ oz", False),
             ("Agave Syrup", "1 tsp", False), ("Angostura Bitters", "2 dashes", False),
@@ -494,6 +537,7 @@ DRINKS = [
         "slug": "ranch-water", "name": "Ranch Water", "kind": "cocktail", "icon": "🌵",
         "glass": "Highball", "image": "/images/Ranch-Water-img.png",
         "description": "Tequila, lime and bubbles. West Texas simple.",
+        "flavors": ["citrusy", "sour"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Tequila", "2 oz", False), ("Lime Juice", "1 oz", False),
             ("Club Soda", "4 oz", False), ("Lime Wedge", "1", True),
@@ -508,6 +552,7 @@ DRINKS = [
         "slug": "mint-julep", "name": "Mint Julep", "kind": "cocktail", "icon": "🌿",
         "glass": "Julep cup", "image": "/images/Mint-Julep-img.png",
         "description": "Bourbon, mint and a mountain of crushed ice. Derby Day classic.",
+        "flavors": ["herbal", "sweet"], "strength": "strong", "vibes": ["refreshing"],
         "ingredients": [
             ("Bourbon", "2½ oz", False), ("Simple Syrup", "½ oz", False),
             ("Mint", "8 leaves", False),
@@ -523,6 +568,7 @@ DRINKS = [
         "slug": "boulevardier", "name": "Boulevardier", "kind": "cocktail", "icon": "🥃",
         "glass": "Rocks", "image": "/images/Boulevardier-img.png",
         "description": "A Negroni made with bourbon. Richer, warmer, just as bold.",
+        "flavors": ["bitter", "sweet"], "strength": "strong", "vibes": ["rich", "adventurous"],
         "ingredients": [
             ("Bourbon", "1¼ oz", False), ("Campari", "1 oz", False),
             ("Sweet Vermouth", "1 oz", False), ("Orange Peel", "1 twist", True),
@@ -537,6 +583,7 @@ DRINKS = [
         "slug": "gold-rush", "name": "Gold Rush", "kind": "cocktail", "icon": "🍯",
         "glass": "Rocks", "image": "/images/Gold-Rush-img.png",
         "description": "Bourbon, honey and lemon. A whiskey sour's golden cousin.",
+        "flavors": ["sweet", "sour", "citrusy"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Bourbon", "2 oz", False), ("Lemon Juice", "¾ oz", False),
             ("Honey Syrup", "¾ oz", False), ("Lemon Twist", "1", True),
@@ -551,6 +598,7 @@ DRINKS = [
         "slug": "rob-roy", "name": "Rob Roy", "kind": "cocktail", "icon": "🍒",
         "glass": "Coupe", "image": "/images/Rob-Roy-img.png",
         "description": "A Manhattan made with Scotch. Smooth with a hint of smoke.",
+        "flavors": ["smoky", "sweet", "bitter"], "strength": "strong", "vibes": ["rich"],
         "ingredients": [
             ("Scotch", "2 oz", False), ("Sweet Vermouth", "1 oz", False),
             ("Angostura Bitters", "2 dashes", False), ("Cocktail Cherry", "1", True),
@@ -565,6 +613,7 @@ DRINKS = [
         "slug": "sidecar", "name": "Sidecar", "kind": "cocktail", "icon": "🍋",
         "glass": "Coupe", "image": "/images/Sidecar-img.png",
         "description": "Cognac, orange and lemon with a sugared rim.",
+        "flavors": ["citrusy", "sour", "sweet"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Cognac", "1½ oz", False), ("Triple Sec", "¾ oz", False),
             ("Lemon Juice", "¾ oz", False), ("Sugar", "for the rim", True),
@@ -580,6 +629,7 @@ DRINKS = [
         "slug": "brandy-alexander", "name": "Brandy Alexander", "kind": "cocktail", "icon": "🍫",
         "glass": "Coupe", "image": "/images/Brandy-Alexander-img.png",
         "description": "Brandy, chocolate and cream. Dessert in a coupe.",
+        "flavors": ["creamy", "sweet"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Brandy", "1½ oz", False), ("Chocolate Liqueur", "1 oz", False),
             ("Heavy Cream", "1 oz", False), ("Nutmeg", "pinch", True),
@@ -594,6 +644,7 @@ DRINKS = [
         "slug": "bees-knees", "name": "Bee's Knees", "kind": "cocktail", "icon": "🐝",
         "glass": "Coupe", "image": "/images/Bees-Knees-img.png",
         "description": "A Prohibition-era sour sweetened with honey.",
+        "flavors": ["sweet", "citrusy", "sour"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "2 oz", False), ("Lemon Juice", "¾ oz", False),
             ("Honey Syrup", "¾ oz", False), ("Lemon Twist", "1", True),
@@ -608,6 +659,7 @@ DRINKS = [
         "slug": "clover-club", "name": "Clover Club", "kind": "cocktail", "icon": "🍓",
         "glass": "Coupe", "image": "/images/Clover-Club-img.png",
         "description": "Gin and raspberry with a silky foam top.",
+        "flavors": ["fruity", "sour", "sweet"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Gin", "1½ oz", False), ("Raspberry Liqueur", "½ oz", False),
             ("Lemon Juice", "½ oz", False), ("Simple Syrup", "¼ oz", False),
@@ -623,6 +675,7 @@ DRINKS = [
         "slug": "gin-basil-smash", "name": "Gin Basil Smash", "kind": "cocktail", "icon": "🌿",
         "glass": "Rocks", "image": "/images/Gin-Basil-Smash-img.png",
         "description": "Bright green, herbal and zesty. A modern classic.",
+        "flavors": ["herbal", "citrusy", "sour"], "strength": "balanced", "vibes": ["refreshing", "adventurous"],
         "ingredients": [
             ("Gin", "2 oz", False), ("Lemon Juice", "¾ oz", False),
             ("Simple Syrup", "½ oz", False), ("Basil", "8–10 leaves", False),
@@ -638,6 +691,7 @@ DRINKS = [
         "slug": "strawberry-daiquiri", "name": "Strawberry Daiquiri", "kind": "cocktail",
         "icon": "🍓", "glass": "Coupe", "image": "/images/Strawberry-Daiquiri-img.png",
         "description": "The classic daiquiri with fresh muddled strawberries.",
+        "flavors": ["fruity", "sweet", "sour"], "strength": "balanced", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Lime Juice", "1 oz", False),
             ("Simple Syrup", "¾ oz", False), ("Strawberries", "3–4", False),
@@ -652,6 +706,7 @@ DRINKS = [
         "slug": "blueberry-mojito", "name": "Blueberry Mojito", "kind": "cocktail", "icon": "🫐",
         "glass": "Highball", "image": "/images/Blueberry-Mojito-img.png",
         "description": "Everything you love about a mojito, plus juicy blueberries.",
+        "flavors": ["fruity", "herbal", "citrusy", "sweet"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Rum", "2 oz", False), ("Lime Juice", "¾ oz", False),
             ("Simple Syrup", "½ oz", False), ("Mint", "6–8 leaves", False),
@@ -668,6 +723,7 @@ DRINKS = [
         "slug": "greyhound", "name": "Greyhound", "kind": "cocktail", "icon": "🐕",
         "glass": "Highball", "image": "/images/Greyhound-img.png",
         "description": "Vodka and fresh grapefruit. Salt the rim and it's a Salty Dog.",
+        "flavors": ["citrusy", "bitter", "sour"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Vodka", "2 oz", False), ("Grapefruit Juice", "4 oz", False),
             ("Salt", "for the rim", True), ("Rosemary", "1 sprig", True),
@@ -683,6 +739,7 @@ DRINKS = [
         "slug": "fuzzy-navel", "name": "Fuzzy Navel", "kind": "cocktail", "icon": "🍑",
         "glass": "Highball", "image": "/images/Fuzzy-Navel-img.png",
         "description": "Peach schnapps and orange juice. Sweet, simple and retro.",
+        "flavors": ["sweet", "fruity"], "strength": "light", "vibes": ["refreshing"],
         "ingredients": [
             ("Peach Schnapps", "2 oz", False), ("Orange Juice", "4 oz", False),
             ("Orange Slice", "1", True),
@@ -697,6 +754,7 @@ DRINKS = [
         "slug": "mudslide", "name": "Mudslide", "kind": "cocktail", "icon": "🍦",
         "glass": "Rocks", "image": "/images/Mudslide-img.png",
         "description": "Vodka, coffee liqueur and Irish cream. A boozy milkshake.",
+        "flavors": ["creamy", "sweet"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "1 oz", False), ("Coffee Liqueur", "1 oz", False),
             ("Irish Cream", "1 oz", False), ("Heavy Cream", "1 oz", False),
@@ -711,6 +769,7 @@ DRINKS = [
         "slug": "chocolate-martini", "name": "Chocolate Martini", "kind": "cocktail", "icon": "🍫",
         "glass": "Martini", "image": "/images/Chocolate-Martini-img.png",
         "description": "Silky, chocolatey and perfect after dinner.",
+        "flavors": ["sweet", "creamy"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "1½ oz", False), ("Chocolate Liqueur", "1 oz", False),
             ("Irish Cream", "1 oz", False), ("Chocolate Bitters", "1 dash", True),
@@ -725,6 +784,7 @@ DRINKS = [
         "slug": "strawberries-and-cream", "name": "Strawberries & Cream", "kind": "cocktail",
         "icon": "🍓", "glass": "Rocks", "image": "/images/Strawberries-Cream-img.png",
         "description": "Pink, creamy and sweet. Like a strawberry milkshake.",
+        "flavors": ["sweet", "fruity", "creamy"], "strength": "light", "vibes": ["rich"],
         "ingredients": [
             ("Strawberry Cream Liqueur", "2 oz", False), ("Vodka", "1 oz", False),
             ("Milk", "2 oz", False), ("Strawberries", "1–2", True),
@@ -739,6 +799,7 @@ DRINKS = [
         "slug": "b-52", "name": "B-52", "kind": "shot", "icon": "🎯",
         "glass": "Shot glass", "image": "/images/B-52-img.png",
         "description": "Three perfect layers: coffee, cream and orange.",
+        "flavors": ["sweet", "creamy"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Coffee Liqueur", "½ oz", False), ("Irish Cream", "½ oz", False),
             ("Triple Sec", "½ oz", False),
@@ -753,6 +814,7 @@ DRINKS = [
         "slug": "baby-guinness", "name": "Baby Guinness", "kind": "shot", "icon": "🍺",
         "glass": "Shot glass", "image": "/images/Baby-Guinness-img.png",
         "description": "A shot that looks like a tiny pint of stout.",
+        "flavors": ["sweet", "creamy", "bitter"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Coffee Liqueur", "1¼ oz", False), ("Irish Cream", "¼ oz", False),
         ],
@@ -766,6 +828,7 @@ DRINKS = [
         "name": "Chocolate Covered Strawberry Espresso Martini", "kind": "cocktail", "icon": "🍓",
         "glass": "Martini", "image": "/images/Choc-Strawberry-Espresso-Martini-img.png",
         "description": "Strawberry cream, chocolate and espresso. Drew's house favorite.",
+        "flavors": ["sweet", "fruity", "creamy"], "strength": "balanced", "vibes": ["rich"],
         "ingredients": [
             ("Vodka", "1 oz", False), ("Strawberry Cream Liqueur", "1 oz", False),
             ("Espresso", "1 oz", False), ("Chocolate Liqueur", "½ oz", False),

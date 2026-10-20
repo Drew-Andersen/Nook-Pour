@@ -1,3 +1,5 @@
+import TasteProfile from "./TasteProfile";
+
 // Ingredient list + steps, shared by the recipe modal and the full recipe page.
 export default function Recipe({ drink, have = [] }) {
   const owned = new Set(have.map((h) => h.toLowerCase()));
@@ -5,6 +7,7 @@ export default function Recipe({ drink, have = [] }) {
 
   return (
     <div className="recipe">
+      <TasteProfile drink={drink} />
       {drink.glass && (
         <p className="recipe-meta">
           <span>Glass</span> {drink.glass}

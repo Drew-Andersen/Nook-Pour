@@ -8,6 +8,7 @@ from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 
 from catalog import INGREDIENT_CATEGORIES, list_ingredients, load_drinks, match_drinks
+from seed_data import FLAVORS, STRENGTHS, VIBES
 from db import Database, close_db, database_url, get_db
 
 load_dotenv()
@@ -35,15 +36,20 @@ def create_app(config=None):
 
 
 def init_database(app):
-    """Create tables if needed and load the starter catalog into an empty database."""
+    """Create tables if needed, and (re)load the catalog when it's empty or seed_data.py changed.
+
+    Everything in this database comes from seed_data.py (users' bars and favorites live in
+    their browsers), so rebuilding it on a catalog change is safe.
+    """
+    from seed import catalog_fingerprint, seed_database
+
     db = app.config.get("SHARED_DB") or Database(app.config["DATABASE_URL"])
     try:
         db.create_schema()
-        if db.one("SELECT COUNT(*) AS n FROM drinks")["n"] == 0:
-            from seed import seed_database
-
-            seed_database(db, reset=False)
-            app.logger.info("Empty database — loaded the starter catalog.")
+        stored = db.one("SELECT value FROM catalog_meta WHERE key = %s", ("fingerprint",))
+        if stored is None or stored["value"] != catalog_fingerprint():
+            seed_database(db, reset=True)
+            app.logger.info("Catalog changed — reloaded drinks from seed_data.py.")
     finally:
         if not app.config.get("SHARED_DB"):
             db.close()
@@ -68,7 +74,17 @@ def register_routes(app):
     def get_drinks():
         search = request.args.get("q", "").strip() or None
         kind = request.args.get("kind", "").strip() or None
-        return jsonify(load_drinks(get_db(), search=search, kind=kind))
+        # e.g. /api/drinks?flavor=sweet&flavor=creamy&strength=balanced&vibe=rich
+        flavors = [f for f in request.args.getlist("flavor") if f.strip()]
+        vibes = [v for v in request.args.getlist("vibe") if v.strip()]
+        strength = request.args.get("strength", "").strip() or None
+        return jsonify(load_drinks(get_db(), search=search, kind=kind,
+                                   flavors=flavors, vibes=vibes, strength=strength))
+
+    @app.get("/api/profiles")
+    def get_profiles():
+        """The taste-profile vocabulary, for the client and the future AI bartender."""
+        return jsonify({"flavors": FLAVORS, "strengths": STRENGTHS, "vibes": VIBES})
 
     @app.get("/api/drinks/<slug>")
     def get_drink(slug):

@@ -78,6 +78,36 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(self.client.post("/api/match", json={}).status_code, 400)
         self.assertEqual(self.client.post("/api/match", data="x").status_code, 400)
 
+    def test_drinks_include_taste_profile(self):
+        old_fashioned = self.client.get("/api/drinks/old-fashioned").get_json()
+        self.assertEqual(old_fashioned["strength"], "strong")
+        self.assertIn("bitter", old_fashioned["flavors"])
+        self.assertEqual(old_fashioned["vibes"], ["rich"])
+
+    def test_filter_by_flavor_strength_and_vibe(self):
+        smoky = {d["name"] for d in self.client.get("/api/drinks?flavor=smoky").get_json()}
+        self.assertEqual(smoky, {"Oaxaca Old Fashioned", "Rob Roy"})
+        both = self.client.get("/api/drinks?flavor=sweet&flavor=creamy&vibe=rich").get_json()
+        self.assertTrue(both)
+        for d in both:
+            self.assertTrue({"sweet", "creamy"} <= set(d["flavors"]))
+            self.assertIn("rich", d["vibes"])
+        light = self.client.get("/api/drinks?strength=light").get_json()
+        self.assertTrue(light and all(d["strength"] == "light" for d in light))
+
+    def test_profiles_vocabulary(self):
+        data = self.client.get("/api/profiles").get_json()
+        self.assertEqual(data["strengths"], ["light", "balanced", "strong"])
+        self.assertIn("smoky", data["flavors"])
+        self.assertEqual(data["vibes"], ["refreshing", "rich", "adventurous"])
+
+    def test_catalog_reloads_when_seed_data_changes(self):
+        self.db.execute("UPDATE catalog_meta SET value = %s WHERE key = %s", ("stale", "fingerprint"))
+        self.db.execute("DELETE FROM drinks WHERE slug = %s", ("mojito",))
+        self.db.commit()
+        app = create_app({"TESTING": True, "SHARED_DB": self.db, "CLIENT_DIST": "/nonexistent"})
+        self.assertEqual(app.test_client().get("/api/drinks/mojito").status_code, 200)
+
     def test_root_without_built_client(self):
         res = self.client.get("/")
         self.assertIn("running", res.get_json()["message"])
@@ -96,6 +126,10 @@ class SeedDataTest(unittest.TestCase):
             self.assertTrue(d["image"], f"{d['name']} has no image")
             path = images / d["image"].lstrip("/")
             self.assertTrue(path.is_file(), f"{d['name']}: missing file {path}")
+
+    def test_every_drink_has_a_valid_profile(self):
+        from seed import validate_catalog
+        validate_catalog()  # raises with a readable list of problems
 
     def test_slugs_unique(self):
         slugs = [d["slug"] for d in DRINKS]

@@ -16,7 +16,7 @@ from pathlib import Path
 from flask import current_app, g
 
 SCHEMA_PATH = Path(__file__).resolve().parent / "schema.sql"
-TABLES = ["drink_steps", "drink_ingredients", "drinks", "ingredients"]  # drop order
+TABLES = ["drink_tags", "drink_steps", "drink_ingredients", "drinks", "ingredients", "catalog_meta"]  # drop order
 
 
 def database_url():
